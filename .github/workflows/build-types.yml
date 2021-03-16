@@ -1,0 +1,39 @@
+name: Build and Update Types
+on:
+  push:
+    branches:
+      - main
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
+        registry-url: 'https://registry.npmjs.org'
+    - run: yarn --frozen-lockfile
+    
+    # This is where we publish, which will trigger the `prepublishOnly` 
+    # script to build our lib
+    # 
+    # - name: Publish Package
+    #   run: yarn publish
+    # 
+    # For demo purposes, we'll just run `build`
+    - run: yarn build
+
+    - name: Update types
+      run: |
+        changed=$(git status --porcelain)
+        if [[ -n "$changed" ]]; then
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'josefaidt@users.noreply.github.com'
+          if [[ ! `git diff --quiet HEAD -- types` ]]; then
+            git add types
+            git commit -m "[automated] update types"
+          fi
+          git push
+        fi

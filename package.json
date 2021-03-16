@@ -1,0 +1,28 @@
+{
+  "name": "svelte-sveld-actions",
+  "description": "Svelte example starter project",
+  "svelte": "./src/index.js",
+  "module": "./lib/index.mjs",
+  "main": "./lib/index.js",
+  "types": "./types/index.d.ts",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "yarn build -w",
+    "prepublishOnly": "yarn build"
+  },
+  "files": [
+    "src",
+    "lib",
+    "types"
+  ],
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^11.2.0",
+    "rollup": "^2.41.3",
+    "rollup-plugin-svelte": "^7.1.0",
+    "sveld": "^0.7.1",
+    "svelte": "^3.35.0"
+  },
+  "peerDependencies": {
+    "svelte": "^3.35.0"
+  }
+}
